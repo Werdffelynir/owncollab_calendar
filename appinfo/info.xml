@@ -9,6 +9,6 @@
     <namespace>Owncollab_Calendar</namespace>
     <category>other</category>
     <dependencies>
-        <owncloud min-version="9" />
+        <owncloud min-version="9" max-version="9"/>
     </dependencies>
 </info>

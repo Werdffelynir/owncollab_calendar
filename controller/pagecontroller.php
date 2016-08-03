@@ -66,12 +66,7 @@ class PageController extends Controller
 
 
     /**
-     * CAUTION: the @Stuff turns off security checks; for this page no admin is
-     *          required and no CSRF check. If you don't know what CSRF is, read
-     *          it up in the docs or you might create a security hole. This is
-     *          basically the only required method to add this exemption, don't
-     *          add it to any other method if you don't exactly know what it does
-     *
+     * @PublicPage
      * @NoAdminRequired
      * @NoCSRFRequired
      */
@@ -109,7 +104,6 @@ class PageController extends Controller
         }
         //id текущих пользователей
         $usersId = array_keys($userTasks);
-
 
         //id пользователей с таблицы синхронизации
         $usersIdCal = $this->connect->calendar()->getUsersId();
@@ -258,24 +252,22 @@ class PageController extends Controller
 
                     }
 
-
                 }
 
             }
 
-
         }
         //все id пользователей (определяеться в начале метода)
-        $allUsers;
+        //$allUsers;
 
         //таблица тасков (определяеться в начале метода)
-        $allTasks;
+        //$allTasks;
 
         //вызов таска по его id (определяеться в начале метода)
-        $arrIdTasks;
+        //$arrIdTasks;
 
         //массив тасков, ключами которого является id таска (определяеться в начале метода)
-        $arrIdTasks;
+        //$arrIdTasks;
 
         //все id групп
         $allGroups = $this->connect->groups->get();
