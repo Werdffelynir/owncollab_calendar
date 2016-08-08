@@ -11,6 +11,7 @@
 
 namespace OCA\Owncollab_Calendar\Controller;
 
+use OCA\Owncollab_Chart\Helper;
 use OCP\IRequest;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Http\DataResponse;
@@ -72,6 +73,11 @@ class PageController extends Controller
      */
     public function index()
     {
+        $pKey = Helper::post('key');
+        $pApp = Helper::post('app');
+
+        if($pKey != 'jasj765Uyt87ouIIfars' || $pApp != 'owncollab_chart')
+            return false;
 
         //название календаря тасков в которых пользователь берет участие как отдельный пользователь
         $userTaskName = 'myChartTasks';
