@@ -2,13 +2,14 @@
 <info>
     <id>owncollab_calendar</id>
     <name>Owncollab Calendar</name>
-    <description>owncollub_calendar</description>
+    <description>This application Owncollab Calendar ...</description>
     <licence>AGPL</licence>
     <author>Bogdan</author>
     <version>0.0.1</version>
     <namespace>Owncollab_Calendar</namespace>
     <category>other</category>
     <dependencies>
-        <owncloud min-version="9" max-version="9"/>
+        <lib>calendar</lib>
+        <owncloud min-version="9.0.1" max-version="9.1.0"/>
     </dependencies>
 </info>
