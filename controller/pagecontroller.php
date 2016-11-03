@@ -80,7 +80,7 @@ class PageController extends Controller
             return false;
 
         //название календаря тасков в которых пользователь берет участие как отдельный пользователь
-        $userTaskName = 'myChartTasks';
+        $userTaskName = 'project';
 
         //все id пользователей
         $allUsers = $this->connect->users->get();
@@ -91,8 +91,9 @@ class PageController extends Controller
         //массив тасков, ключами которого является id таска
         $arrIdTasks = [];
         for ($i = 0; $i < count($allTasks); $i++) {
-            $arrIdTasks[$allTasks[$i]['id']] = $allTasks[$i];
+                $arrIdTasks[$allTasks[$i]['id']] = $allTasks[$i];
         }
+        $userTaskName = $arrIdTasks[1]['text'];
         //массив id тасков, ключами которого являются id пользователей
         $userTasks = [];
         for ($i = 0; $i < count($allUsers); $i++) {
@@ -263,17 +264,7 @@ class PageController extends Controller
             }
 
         }
-        //все id пользователей (определяеться в начале метода)
-        //$allUsers;
 
-        //таблица тасков (определяеться в начале метода)
-        //$allTasks;
-
-        //вызов таска по его id (определяеться в начале метода)
-        //$arrIdTasks;
-
-        //массив тасков, ключами которого является id таска (определяеться в начале метода)
-        //$arrIdTasks;
 
         //все id групп
         $allGroups = $this->connect->groups->get();
