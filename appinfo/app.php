@@ -13,10 +13,7 @@ namespace OCA\Owncollab_Calendar\AppInfo;
 
 use OCP\AppFramework\App;
 
-#require_once __DIR__ . '/autoload.php';
-
-
-if(\OCP\App::isEnabled('calendar')) {
+if(\OCP\App::isEnabled('calendar') && \OC_App::isEnabled('owncollab_chart')) {
     $app = new App('owncollab_calendar');
     $container = $app->getContainer();
 }

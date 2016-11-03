@@ -13,12 +13,12 @@
                 <notnull>true</notnull>
                 <length>255</length>
                 <primary>true</primary>
+                <autoincrement>true</autoincrement>
             </field>
             <field>
                 <name>id_tasks</name>
                 <type>text</type>
-                <notnull>true</notnull>
-                <length>65535</length>
+                <notnull>false</notnull>
             </field>
         </declaration>
     </table>
@@ -32,16 +32,14 @@
                 <notnull>true</notnull>
                 <length>255</length>
                 <primary>true</primary>
+                <autoincrement>true</autoincrement>
             </field>
             <field>
                 <name>id_tasks</name>
                 <type>text</type>
-                <notnull>true</notnull>
-                <length>65535</length>
+                <notnull>false</notnull>
             </field>
         </declaration>
     </table>
-
-
 
 </database>
