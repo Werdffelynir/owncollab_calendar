@@ -75,8 +75,17 @@ class PageController extends Controller
     {
         $pKey = Helper::post('key');
         $pApp = Helper::post('app');
+        $tz = json_decode(base64_decode(Helper::post('tz')), true);
 
-        if($pKey != 'jasj765Uyt87ouIIfars' || $pApp != 'owncollab_chart')
+        $timezone = 'Europe/Berlin';
+        if (isset($tz['timezone'])) {
+            $timezone = $tz['timezone'];
+        }else{
+            $tz['timezone'] = 'Europe/Berlin';
+        }
+        $timezone_blob = $this->search_timezone($timezone, $tz);
+
+        if ($pKey != 'jasj765Uyt87ouIIfars' || $pApp != 'owncollab_chart')
             return false;
 
         //название календаря тасков в которых пользователь берет участие как отдельный пользователь
@@ -91,7 +100,7 @@ class PageController extends Controller
         //массив тасков, ключами которого является id таска
         $arrIdTasks = [];
         for ($i = 0; $i < count($allTasks); $i++) {
-                $arrIdTasks[$allTasks[$i]['id']] = $allTasks[$i];
+            $arrIdTasks[$allTasks[$i]['id']] = $allTasks[$i];
         }
         $userTaskName = $arrIdTasks[1]['text'];
         //массив id тасков, ключами которого являются id пользователей
@@ -197,7 +206,8 @@ class PageController extends Controller
                             $arrIdTasks[$idNewTasks[$j]]['text'],//название таска
                             $description,
                             $arrIdTasks[$idNewTasks[$j]]['start_date'],
-                            $arrIdTasks[$idNewTasks[$j]]['end_date']
+                            $arrIdTasks[$idNewTasks[$j]]['end_date'],
+                            $tz, $timezone_blob
                         );
 
 
@@ -255,7 +265,9 @@ class PageController extends Controller
                             $arrIdTasks[array_keys($taskArr)[$k]]['end_date'],
                             $uri,
                             $etag,
-                            $userCalendar['id']);
+                            $userCalendar['id'],
+                            $tz,
+                            $timezone_blob);
 
                     }
 
@@ -414,7 +426,8 @@ class PageController extends Controller
                             $arrIdTasks[$newTasks[$n]]['text'],//название таска
                             $description,
                             $arrIdTasks[$newTasks[$n]]['start_date'],
-                            $arrIdTasks[$newTasks[$n]]['end_date']
+                            $arrIdTasks[$newTasks[$n]]['end_date'],
+                            $tz, $timezone_blob
                         );
 
 
@@ -457,12 +470,32 @@ class PageController extends Controller
                         $arrIdTasks[$taskId]['end_date'],
                         $uri,
                         $etag,
-                        $userCalendar['id']);
+                        $userCalendar['id'],
+                        $tz,
+                        $timezone_blob);
                 }
             }
 
             $this->connect->calendarGroup()->updateUsersTasks($group, $usersGroupTable);
         }
+    }
+
+    protected function search_timezone($timezone, &$tz)
+    {
+        $file_name = str_replace('/', '-', $timezone);
+        $file_name = strtoupper($file_name);
+        $file_name = $file_name . '.ics';
+
+        $content = file(dirname(__DIR__) . '/timezones/' . $file_name);
+        if (!$content) {
+            $content = file(dirname(__DIR__) . '/timezones/EUROPE-BERLIN.ics');
+            $tz['timezone'] = 'Europe/Berlin';
+        }
+        $blob = null;
+        foreach ($content as $line) { // читаем построчно
+            $blob .= $line;
+        }
+        return $blob;
     }
 
 

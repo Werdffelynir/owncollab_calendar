@@ -77,7 +77,7 @@ class CalendarObjects
     }
 
 
-    public function insert($calendarId, $uri, $etag, $uid, $summary, $description, $date_start, $date_end)
+    public function insert($calendarId, $uri, $etag, $uid, $summary, $description, $date_start, $date_end, $tz, $timezone_blob)
     {
 
         $dt_elements = explode(' ', $date_start);
@@ -108,28 +108,11 @@ LAST-MODIFIED:' . $thisTime . '
 UID:' . $uid . '
 SUMMARY:' . $summary . '
 LOCATION:' . $description . '
-DTSTART;TZID=Europe/Helsinki:' . $date_start_only . '
-DTEND;TZID=Europe/Helsinki:' . $date_end_only . '
+DTSTART;TZID='.$tz["timezone"].':' . $date_start_only . '
+DTEND;TZID='.$tz["timezone"].':' . $date_end_only . '
 END:VEVENT
-BEGIN:VTIMEZONE
-TZID:Europe/Helsinki
-X-LIC-LOCATION:Europe/Helsinki
-BEGIN:DAYLIGHT
-TZOFFSETFROM:+0200
-TZOFFSETTO:+0300
-TZNAME:EEST
-DTSTART:19700329T030000
-RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=3
-END:DAYLIGHT
-BEGIN:STANDARD
-TZOFFSETFROM:+0300
-TZOFFSETTO:+0200
-TZNAME:EET
-DTSTART:19701025T040000
-RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=10
-END:STANDARD
-END:VTIMEZONE
-END:VCALENDAR';
+'.$timezone_blob.'END:VCALENDAR';
+
         $result = $this->connect->db->prepare($sql)->execute(array(
             ':calendardata' => $blob,
             ':uri' => $uri,
@@ -150,9 +133,8 @@ END:VCALENDAR';
 
     }
 
-    public function updateFromTasks($id, $uid, $summary, $description, $date_start, $date_end, $uri, $etag, $calendarId)
+    public function updateFromTasks($id, $uid, $summary, $description, $date_start, $date_end, $uri, $etag, $calendarId, $tz, $timezone_blob)
     {
-
         $dt_elements = explode(' ', $date_start);
         // Разбиение даты
         $date_elements = explode('-', $dt_elements[0]);
@@ -185,28 +167,12 @@ LAST-MODIFIED:' . $thisTime . '
 UID:' . $uid . '
 SUMMARY:' . $summary . '
 LOCATION:' . $description . '
-DTSTART;TZID=Europe/Helsinki:' . $date_start_only . '
-DTEND;TZID=Europe/Helsinki:' . $date_end_only . '
+DTSTART;TZID='.$tz["timezone"].':' . $date_start_only . '
+DTEND;TZID='.$tz["timezone"].':' . $date_end_only . '
 END:VEVENT
-BEGIN:VTIMEZONE
-TZID:Europe/Helsinki
-X-LIC-LOCATION:Europe/Helsinki
-BEGIN:DAYLIGHT
-TZOFFSETFROM:+0200
-TZOFFSETTO:+0300
-TZNAME:EEST
-DTSTART:19700329T030000
-RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=3
-END:DAYLIGHT
-BEGIN:STANDARD
-TZOFFSETFROM:+0300
-TZOFFSETTO:+0200
-TZNAME:EET
-DTSTART:19701025T040000
-RRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=10
-END:STANDARD
-END:VTIMEZONE
-END:VCALENDAR';
+'.$timezone_blob.'END:VCALENDAR';
+
+
         $result = $this->connect->db->executeUpdate($sql, [
             ':calendardata' => $blob,
             ':firstoccurence' => strtotime($date_start),//дата начала таска (timestamp)
