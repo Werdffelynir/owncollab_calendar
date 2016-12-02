@@ -10,6 +10,6 @@
     <category>other</category>
     <dependencies>
         <lib>calendar</lib>
-        <owncloud min-version="9.0.1" max-version="9.1.0"/>
+        <owncloud min-version="9.0.1" max-version="9.1.1"/>
     </dependencies>
 </info>

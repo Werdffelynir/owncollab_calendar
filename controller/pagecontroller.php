@@ -290,10 +290,12 @@ class PageController extends Controller
             $temp = [];
             $temp_arr = [];
             for ($k = 0; $k < count($allTasks); $k++) {
-                $taskGroup = json_decode($allTasks[$k]['users'])->groups;
-                if (in_array($allGroups[$i]['gid'], $taskGroup)) {
-                    $temp_arr[$allTasks[$k]['id']] = '';
-                }
+                try {
+                    $taskGroup = json_decode($allTasks[$k]['users'])->groups;
+                    if (in_array($allGroups[$i]['gid'], $taskGroup)) {
+                        $temp_arr[$allTasks[$k]['id']] = '';
+                    }
+                } catch (\Exception $e) {}
             }
             for ($j = 0; $j < count($usersGroup); $j++) {
                 $temp[$usersGroup[$j]] = $temp_arr;
